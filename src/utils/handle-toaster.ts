@@ -4,13 +4,18 @@ export const handleToaster = (params: {
   message: string
   type: 'success' | 'error' | 'warning' | 'info'
 }) => {
+  const defaultParams = {
+    position: 'top-right',
+    closeButton: true,
+  } as const
+
   if (params.type === 'success') {
     return toast.success(params.message, {
       style: {
         backgroundColor: 'green',
         color: 'white',
       },
-      position: 'top-right',
+      ...defaultParams,
     })
   }
   if (params.type === 'error') {
@@ -19,7 +24,7 @@ export const handleToaster = (params: {
         backgroundColor: 'red',
         color: 'white',
       },
-      position: 'top-right',
+      ...defaultParams,
     })
   }
 

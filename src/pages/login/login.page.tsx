@@ -9,6 +9,8 @@ import { loginSchema, type LoginSchema } from './login.schema'
 import { useAuth } from '@/providers'
 import { PageLayout } from '@/layouts/page.layout'
 import { handleToaster } from '@/utils/handle-toaster'
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
+import { Label } from '@/components/ui/label'
 
 export const Login = () => {
   const navigate = useNavigate()
@@ -46,30 +48,62 @@ export const Login = () => {
 
   return (
     <PageLayout>
-      <Typography variant='h1'>Login</Typography>
-      <FormProvider {...form}>
-        <form
-          className='flex flex-col gap-4 w-full max-w-md'
-          onSubmit={form.handleSubmit(onSubmit)}
-        >
-          <InputForm
-            name='username'
-            placeholder='Username'
-          />
-          <InputForm
-            name='password'
-            type='password'
-            placeholder='Password'
-          />
-          <Typography variant='body3'>For test, use: admin admin</Typography>
-          <Button
-            type='submit'
-            disabled={form.formState.isSubmitting}
-          >
-            Login
-          </Button>
-        </form>
-      </FormProvider>
+      <Card className='w-full max-w-md mx-auto'>
+        <CardHeader>
+          <CardTitle>Login to your account</CardTitle>
+          <CardDescription>
+            Enter your email below to login to your account
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <FormProvider {...form}>
+            <form
+              className='flex flex-col gap-4 w-full max-w-md'
+              onSubmit={form.handleSubmit(onSubmit)}
+            >
+              <div className="flex flex-col gap-6">
+                <div className="grid gap-3">
+                  <Label htmlFor="email">Email</Label>
+                  <InputForm
+                    name='username'
+                    type='text'
+                  />
+                </div>
+                <div className="grid gap-3">
+                  <div className="flex items-center">
+                    <Label htmlFor="password">Password</Label>
+                    <a
+                      href="#"
+                      className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
+                    >
+                      Forgot your password?
+                    </a>
+                  </div>
+                  <InputForm
+                    name='password'
+                    type='password'
+                  />
+                </div>
+                <Typography variant='body3'>For test, use credentials: admin admin</Typography>
+                <div className="flex flex-col gap-3">
+                  <Button type="submit" className="w-full">
+                    Login
+                  </Button>
+                  <Button variant="outline" className="w-full" disabled>
+                    Login with Google
+                  </Button>
+                </div>
+              </div>
+              <div className="mt-4 text-center text-sm">
+                Don&apos;t have an account?{" "}
+                <a href="#" className="underline underline-offset-4">
+                  Sign up
+                </a>
+              </div>
+            </form>
+          </FormProvider>
+        </CardContent>
+      </Card>
     </PageLayout>
   )
 }
