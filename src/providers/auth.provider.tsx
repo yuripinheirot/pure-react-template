@@ -1,7 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createContext, useContext, useState } from 'react'
-import { Outlet } from 'react-router'
-import { Navigate } from 'react-router'
 
 export const AuthContext = createContext<{
   user: any
@@ -13,7 +11,11 @@ export const AuthContext = createContext<{
   logout: () => {},
 })
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
+export function AuthRoutesProvider({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   const [user, setUser] = useState(null)
 
   const login = (userData: any) => setUser(userData)
@@ -28,9 +30,4 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
 export const useAuth = () => {
   return useContext(AuthContext)
-}
-
-export const PrivateRoute = () => {
-  const { user } = useAuth()
-  return user ? <Outlet /> : <Navigate to='/login' />
 }

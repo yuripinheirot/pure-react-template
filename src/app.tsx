@@ -1,35 +1,39 @@
 import { BrowserRouter, Routes, Route } from 'react-router'
-import { Home } from './pages/home/home.page'
-import { Login } from './pages/login/login.page'
-import { ReactQueryProvider, AuthProvider, PrivateRoute } from './providers'
-import { AppLayout } from './layouts/app.layout'
-import { Toaster } from 'sonner'
+import { HomePage } from './pages/home/home.page'
+import { LoginPage } from './pages/login/login.page'
+import { PrivateRoute } from './components/custom/private-route'
+import { AppProviders } from './providers'
+import { SearchPage } from './pages/search/search.page'
+import { SettingsPage } from './pages/settings/settings.page'
 
 export const App = () => {
   return (
-    <AppLayout>
-      <ReactQueryProvider>
-        <BrowserRouter>
-          <AuthProvider>
-            <Routes>
-              <Route
-                path='/'
-                element={<PrivateRoute />}
-              >
-                <Route
-                  path='/'
-                  element={<Home />}
-                />
-              </Route>
-              <Route
-                path='/login'
-                element={<Login />}
-              />
-            </Routes>
-          </AuthProvider>
-        </BrowserRouter>
-      </ReactQueryProvider>
-      <Toaster />
-    </AppLayout>
+    <AppProviders>
+      <BrowserRouter>
+        <Routes>
+          <Route
+            path='/'
+            element={<PrivateRoute />}
+          >
+            <Route
+              path='/'
+              element={<HomePage />}
+            />
+            <Route
+              path='/search'
+              element={<SearchPage />}
+            />
+            <Route
+              path='/settings'
+              element={<SettingsPage />}
+            />
+          </Route>
+          <Route
+            path='/login'
+            element={<LoginPage />}
+          />
+        </Routes>
+      </BrowserRouter>
+    </AppProviders>
   )
 }

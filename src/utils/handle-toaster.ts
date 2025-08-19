@@ -5,7 +5,6 @@ export const handleToaster = (params: {
   type: 'success' | 'error' | 'warning' | 'info'
 }) => {
   const defaultParams = {
-    position: 'top-right',
     closeButton: true,
   } as const
 

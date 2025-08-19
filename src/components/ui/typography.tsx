@@ -40,6 +40,7 @@ export const typography = cva('font-sans', {
 
 export type TypographyProps = PropsWithChildren<
   VariantProps<typeof typography> & {
+    children?: React.ReactNode
     className?: string
     error?: boolean
     asChild?: boolean
