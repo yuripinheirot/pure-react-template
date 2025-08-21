@@ -42,13 +42,13 @@ export const AppTable = <Data,>({
   return (
     <div
       className={cn(
-        'flex flex-col gap-4 border-2 border-gray-200 rounded-lg py-4 px-4 overflow-y-auto',
+        'w-full bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden',
         className
       )}
     >
       <Table>
         <TableHeader>
-          <TableRow>
+          <TableRow className='border-b border-gray-100 bg-gray-50/50 hover:bg-gray-50/50'>
             {table.getHeaderGroups().map((headerGroup) =>
               headerGroup.headers.map((header) => {
                 const alignText =
@@ -61,7 +61,11 @@ export const AppTable = <Data,>({
                 return (
                   <TableHead
                     key={header.id}
-                    className={`text-${alignText}`}
+                    className={cn(
+                      'py-4 px-6 first:pl-6 last:pr-6',
+                      `text-${alignText}`,
+                      classNameHeader
+                    )}
                   >
                     {hasCustomHeader ? (
                       flexRender(
@@ -73,7 +77,7 @@ export const AppTable = <Data,>({
                         variant='body2'
                         color={'primary'}
                         weight={'medium'}
-                        className={classNameHeader}
+                        className='text-gray-700 uppercase tracking-wide text-xs'
                       >
                         {header.column.columnDef.header?.toString()}
                       </Typography>
@@ -82,13 +86,20 @@ export const AppTable = <Data,>({
                 )
               })
             )}
-            <TableHead></TableHead>
+            <TableHead className='w-4'></TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {table.getRowModel().rows.length > 0 ? (
-            table.getRowModel().rows.map((row) => (
-              <TableRow key={row.id}>
+            table.getRowModel().rows.map((row, index) => (
+              <TableRow
+                key={row.id}
+                className={cn(
+                  'border-b border-gray-50 transition-colors duration-150',
+                  'hover:bg-gray-50/50',
+                  index % 2 === 0 ? 'bg-white' : 'bg-gray-50/30'
+                )}
+              >
                 {row.getVisibleCells().map((cell) => {
                   const { meta } = cell.column.columnDef
                   const alignText = meta?.alignColumn || 'left'
@@ -99,7 +110,11 @@ export const AppTable = <Data,>({
                     <TableCell
                       key={cell.id}
                       align={alignText}
-                      className='whitespace-normal'
+                      className={cn(
+                        'py-4 px-6 first:pl-6 last:pr-6',
+                        'whitespace-normal',
+                        classNameCell
+                      )}
                     >
                       {hasCustomCell ? (
                         flexRender(
@@ -111,7 +126,7 @@ export const AppTable = <Data,>({
                           variant='body3'
                           color={'default'}
                           weight={'normal'}
-                          className={classNameCell}
+                          className='text-gray-600'
                         >
                           {cell.getValue() as string | number}
                         </Typography>
@@ -122,23 +137,60 @@ export const AppTable = <Data,>({
               </TableRow>
             ))
           ) : (
-            <TableRow className='h-[600px]'>
+            <TableRow className='h-32'>
               <TableCell
                 colSpan={columns.length}
-                className='text-center'
+                className='text-center py-12'
               >
-                <Typography
-                  variant='body3'
-                  color={'default'}
-                  weight={'normal'}
-                >
-                  {noDataText || 'Nenhum dado encontrado'}
-                </Typography>
+                <div className='flex flex-col items-center justify-center space-y-3'>
+                  <div className='w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center'>
+                    <svg
+                      className='w-6 h-6 text-gray-400'
+                      fill='none'
+                      stroke='currentColor'
+                      viewBox='0 0 24 24'
+                    >
+                      <path
+                        strokeLinecap='round'
+                        strokeLinejoin='round'
+                        strokeWidth={2}
+                        d='M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z'
+                      />
+                    </svg>
+                  </div>
+                  <Typography
+                    variant='body2'
+                    color={'default'}
+                    weight={'medium'}
+                    className='text-gray-500'
+                  >
+                    {noDataText || 'Nenhum dado encontrado'}
+                  </Typography>
+                  <Typography
+                    variant='body3'
+                    color={'default'}
+                    weight={'normal'}
+                    className='text-gray-400'
+                  >
+                    Tente ajustar os filtros ou adicionar novos dados
+                  </Typography>
+                </div>
               </TableCell>
             </TableRow>
           )}
         </TableBody>
-        {caption && <TableCaption>{caption}</TableCaption>}
+        {caption && (
+          <TableCaption className='py-4 px-6 bg-gray-50/50 border-t border-gray-100'>
+            <Typography
+              variant='body3'
+              color='default'
+              weight='normal'
+              className='text-gray-500'
+            >
+              {caption}
+            </Typography>
+          </TableCaption>
+        )}
       </Table>
     </div>
   )
